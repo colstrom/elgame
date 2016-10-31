@@ -15,7 +15,7 @@ STDERR.puts "Forwarding nanomsg requests on #{ARGV.first} to zeromq server at #{
 loop do
   request = nano.recv.split
   puts "REQ #{request}"
-  zero. << request
+  zero << request
 
   response = zero.receive.to_a.join(' ')
   puts "REP #{response}"
