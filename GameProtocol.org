@@ -1,0 +1,65 @@
+#+TITLE: GameProtocol/1.0
+#+LATEX: \pagebreak
+
+* Frame Structure
+
+  #+BEGIN_EXAMPLE
+      GameProtocol/1.0     JOIN     OBSERVER
+    |                  | |      | |          |
+     ------------------   ------   ----------
+      \                    \        \
+       \                    \         --- ACTOR / OBSERVER
+        \                    \
+         \                     --- COMMAND
+          \
+            --- PROTOCOL HEADER
+  #+END_EXAMPLE
+
+  A GameProtocol message consists of 2 or more frames.
+
+  1. The first frame MUST contain the protocol name and version, separated by a slash.
+  2. The second frame SHOULD contain a valid command as defined in this specification.
+  3. Additional frames MAY be present.
+     1. If present, any additional frames are to be handled in the context of the command.
+
+* Error Format
+
+  A server MAY respond to any request with =WTF= to indicate a problem with the request.
+  - Additional frames may follow, providing additional context for the problem.
+
+* Valid Commands
+
+** JOIN <role> - Join the server as the specified role
+
+   - =role= SHOULD be one of ( =ACTORS= / =OBSERVERS= )
+   - If the request is successful, the server MUST respond with =WELCOME=, and a
+     token used to identify the session.
+
+** COMMANDS - List Supported Commands
+
+   - If the request is successful, the server SHOULD respond with =COMMANDS=.
+   - Additional frames may follow, each containing one command supported by the server.
+
+** LIST <role>
+
+   - =role= SHOULD be one of ( =ACTORS= / =OBSERVERS= )
+   - If the request is successful, the server SHOULD respond with =LIST=.
+   - Additional frames may follow, each containing one identifier for the role specified.
+
+** MOVE <direction>
+
+   - =direction= MUST be one of ( =FORWARD= / =BACKWARD= / =LEFT= / =RIGHT= )
+   - If the request is successful, the server MUST respond with =OK=.
+   - If the request was not successful, the server MUST respond with =FAIL=.
+
+** FEEL <direction>
+
+   - =direction= MUST be one of ( =FORWARD= / =BACKWARD= / =LEFT= / =RIGHT= )
+   - If the request is successful, the server SHOULD respond with =FEELS-LIKE=.
+   - Additional frames may follow, each containing an entity type present at the
+     specified location.
+
+* Authors
+  
+  - Chris Olstrom
+  - Stephen Degabriele
