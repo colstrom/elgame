@@ -12,7 +12,7 @@ class Server
   include ::Contracts::Builtin
 
   PROTOCOL = 'GameProtocol/1.0'.freeze
-  COMMANDS = %w(COMMANDS JOIN LIST JACK-IN MOVE FEEL).freeze
+  COMMANDS = %w(COMMANDS JOIN LIST JACK-IN MOVE FEEL ATTACK).freeze
   ROLES = %w(ACTORS OBSERVERS).freeze
   ORIENTATIONS = %w(NORTH EAST SOUTH WEST).freeze
   DIRECTIONS = %w(FORWARD BACKWARD LEFT RIGHT).freeze
