@@ -90,6 +90,28 @@ class Server
     respond_with 'WELCOME', token
   end
 
+  Contract String, String => Any
+  def attack(token, direction)
+    return invald_token! unless valid? token
+    return invalid_direction unless valid_direction? direction
+
+    x, y = MOVES[relative_direction orientation(token), direction.upcase]
+    px, py = position token
+    tx = px + x
+    ty = py + y
+
+    return respond_with(edge == 'WALL' ? 'HIT' : 'MISS') if outside_world?(tx, ty)
+
+    case (world[tx] || [])[ty] || []
+    when ->(space) { space.empty? }
+      respond_with 'MISS'
+    when ->(space) { space.all? { |entity| INTANGIBLE.include? role(entity) } }
+      respond_with 'MISS'
+    else
+      respond_with 'HIT'
+    end
+  end
+
   Contract String, String, RespondTo[:to_i] => Any
   def move(token, direction, distance = 1)
     distance = distance.to_i
