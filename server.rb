@@ -34,6 +34,7 @@ class Server
     'WEST' => [0, -1],
     'EAST' => [0, 1]
   }
+  INTANGIBLE = %w(VOID OBSERVER).freeze
 
   Orientation = Enum[*ORIENTATIONS]
   Direction = Enum[*DIRECTIONS]
