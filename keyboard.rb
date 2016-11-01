@@ -35,6 +35,10 @@ class KeyboardClient < Client
     feel!
   end
 
+  def a
+    attack!
+  end
+
   def up
     forward
   end
