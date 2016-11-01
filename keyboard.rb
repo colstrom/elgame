@@ -27,6 +27,10 @@ class KeyboardClient < Client
     STDERR.puts request(:feel, token, direction)
   end
 
+  def f
+    feel!
+  end
+
   def up
     forward
   end
