@@ -23,6 +23,10 @@ class KeyboardClient < Client
   alias left move!
   alias right move!
 
+  def attack!(direction = :forward)
+    STDERR.puts request(:attack, token, direction)
+  end
+
   def feel!(direction = :forward)
     STDERR.puts request(:feel, token, direction)
   end
