@@ -59,6 +59,11 @@
    - Additional frames may follow, each containing an entity type present at the
      specified location.
 
+** ATTACK <direction>
+
+   - =direction= MUST be one of ( =FORWARD= / =BACKWARD= / =LEFT= / =RIGHT= )
+   - If the request is successful, the server SHOULD respond with one of ( =HIT= / =MISS= )
+
 * Authors
   
   - Chris Olstrom
