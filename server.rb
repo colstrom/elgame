@@ -90,6 +90,17 @@ class Server
     respond_with 'WELCOME', token
   end
 
+  Contract String=>nil
+  def kill(token)
+    position = state.fetch("ACTOR/#{token}/position")
+    state.delete("ACTOR/#{token}/position")
+    state.delete("ACTOR/#{token}/orientation")
+    state.delete("ACTOR/#{token}/")
+    state.store 'actors', (state.fetch('actors', []) - [token])
+    world[position[0]][position[1]] -= [token]
+    nil
+  end
+
   Contract String, String => Any
   def attack(token, direction)
     return invald_token! unless valid? token
@@ -108,6 +119,7 @@ class Server
     when ->(space) { space.all? { |entity| INTANGIBLE.include? role(entity) } }
       respond_with 'MISS'
     else
+      kill world[tx][ty][0] if role(world[tx][ty][0]) == 'ACTOR'
       respond_with 'HIT'
     end
   end
