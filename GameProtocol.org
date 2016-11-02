@@ -63,6 +63,7 @@
 
    - =direction= MUST be one of ( =FORWARD= / =BACKWARD= / =LEFT= / =RIGHT= )
    - If the request is successful, the server SHOULD respond with one of ( =HIT= / =MISS= )
+   - Single successful hit will kill the oponnent
 
 * Authors
   

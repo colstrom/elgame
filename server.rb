@@ -100,27 +100,45 @@ class Server
     world[x][y].delete token
   end
 
-  Contract String, String => Any
-  def attack(token, direction)
+  Contract None => Any
+  def attack_respond_to_outside_world
+    respond_with(edge == 'WALL' ? 'HIT' : 'MISS')
+  end
+
+  def slay_actors(x, y)
+    world[x][y].select { |t| role(t) == 'ACTOR' }.each { |actor| kill actor }
+    respond_with 'HIT'
+  end
+
+  Contract Num, Num => Any
+  def attack_respond_to_non_empty_space(x, y)
+    case (world[x] || [])[y] || []
+    when ->(space) { space.empty? }
+      respond_with 'MISS'
+    when ->(space) { space.all? { |entity| INTANGIBLE.include? role(entity) } }
+      respond_with 'MISS'
+    else
+      slay_actors(x, y)
+    end
+  end
+
+  Contract None => Any
+  def invalid_checks
     return invald_token! unless valid? token
     return invalid_direction unless valid_direction? direction
+  end
+
+  Contract String, String => Any
+  def attack(token, direction)
+    invalid_checks
 
     x, y = MOVES[relative_direction orientation(token), direction.upcase]
     px, py = position token
     tx = px + x
     ty = py + y
 
-    return respond_with(edge == 'WALL' ? 'HIT' : 'MISS') if outside_world?(tx, ty)
-
-    case (world[tx] || [])[ty] || []
-    when ->(space) { space.empty? }
-      respond_with 'MISS'
-    when ->(space) { space.all? { |entity| INTANGIBLE.include? role(entity) } }
-      respond_with 'MISS'
-    else
-      world[tx][ty].select { |t| role(token) == 'ACTOR' }.each { |actor| kill actor }
-      respond_with 'HIT'
-    end
+    return attack_respond_to_outside_world if outside_world?(tx, ty)
+    attack_respond_to_non_empty_space(tx, ty)
   end
 
   Contract String, String, RespondTo[:to_i] => Any
