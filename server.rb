@@ -92,12 +92,12 @@ class Server
 
   Contract String => Any
   def kill(token)
-    position = state.fetch("ACTOR/#{token}/position")
+    x, y = state.fetch("ACTOR/#{token}/position")
     state.delete("ACTOR/#{token}/position")
     state.delete("ACTOR/#{token}/orientation")
     state.delete("ACTOR/#{token}/")
     state.store 'actors', (state.fetch('actors', []) - [token])
-    world[position[0]][position[1]].delete token
+    world[x][y].delete token
   end
 
   Contract String, String => Any
