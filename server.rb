@@ -97,7 +97,7 @@ class Server
     state.delete("ACTOR/#{token}/orientation")
     state.delete("ACTOR/#{token}/")
     state.store 'actors', (state.fetch('actors', []) - [token])
-    world[position[0]][position[1]] -= [token]
+    world[position[0]][position[1]].delete token
   end
 
   Contract String, String => Any
