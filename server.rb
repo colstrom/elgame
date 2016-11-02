@@ -90,7 +90,7 @@ class Server
     respond_with 'WELCOME', token
   end
 
-  Contract String=>nil
+  Contract String => Any
   def kill(token)
     position = state.fetch("ACTOR/#{token}/position")
     state.delete("ACTOR/#{token}/position")
@@ -98,7 +98,6 @@ class Server
     state.delete("ACTOR/#{token}/")
     state.store 'actors', (state.fetch('actors', []) - [token])
     world[position[0]][position[1]] -= [token]
-    nil
   end
 
   Contract String, String => Any
