@@ -92,11 +92,12 @@ class Server
 
   Contract String=>nil
   def kill(token)
+    position = state.fetch("ACTOR/#{token}/position")
     state.delete("ACTOR/#{token}/position")
     state.delete("ACTOR/#{token}/orientation")
     state.delete("ACTOR/#{token}/")
-    state.store 'actors', (state.fetch('actors', []) - token)
-    world[tx][ty] -= token
+    state.store 'actors', (state.fetch('actors', []) - [token])
+    world[position[0]][position[1]] -= [token]
     nil
   end
 
@@ -118,13 +119,7 @@ class Server
     when ->(space) { space.all? { |entity| INTANGIBLE.include? role(entity) } }
       respond_with 'MISS'
     else
-      if (role(world[tx][ty][0]) == 'ACTOR')
-        state.delete("ACTOR/#{world[tx][ty][0]}/position")
-        state.delete("ACTOR/#{world[tx][ty][0]}/orientation")
-        state.delete("ACTOR/#{world[tx][ty][0]}/")
-        state.store 'actors', (state.fetch('actors', []) - [world[tx][ty][0]])
-        world[tx][ty] = world[tx][ty] - [world[tx][ty][0]]
-      end
+      kill world[tx][ty][0] if role(world[tx][ty][0]) == 'ACTOR'
       respond_with 'HIT'
     end
   end
