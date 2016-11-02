@@ -108,6 +108,13 @@ class Server
     when ->(space) { space.all? { |entity| INTANGIBLE.include? role(entity) } }
       respond_with 'MISS'
     else
+      if (role(world[tx][ty][0]) == 'ACTOR')
+        state.delete("ACTOR/#{world[tx][ty][0]}/position")
+        state.delete("ACTOR/#{world[tx][ty][0]}/orientation")
+        state.delete("ACTOR/#{world[tx][ty][0]}/")
+        state.store 'actors', (state.fetch('actors', []) - [world[tx][ty][0]])
+        world[tx][ty] = world[tx][ty] - [world[tx][ty][0]]
+      end
       respond_with 'HIT'
     end
   end
