@@ -118,7 +118,7 @@ class Server
     when ->(space) { space.all? { |entity| INTANGIBLE.include? role(entity) } }
       respond_with 'MISS'
     else
-      kill world[tx][ty][0] if role(world[tx][ty][0]) == 'ACTOR'
+      world[tx][ty].select { |t| role(token) == 'ACTOR' }.each { |actor| kill actor }
       respond_with 'HIT'
     end
   end
