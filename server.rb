@@ -122,6 +122,7 @@ class Server
     end
   end
 
+  Contract None => Any
   def invalid_checks
     return invald_token! unless valid? token
     return invalid_direction unless valid_direction? direction
