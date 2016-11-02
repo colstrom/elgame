@@ -90,6 +90,16 @@ class Server
     respond_with 'WELCOME', token
   end
 
+  Contract String=>nil
+  def kill(token)
+    state.delete("ACTOR/#{token}/position")
+    state.delete("ACTOR/#{token}/orientation")
+    state.delete("ACTOR/#{token}/")
+    state.store 'actors', (state.fetch('actors', []) - token)
+    world[tx][ty] -= token
+    nil
+  end
+
   Contract String, String => Any
   def attack(token, direction)
     return invald_token! unless valid? token
