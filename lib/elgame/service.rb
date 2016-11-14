@@ -58,9 +58,9 @@ module ElGame
       message << 'HUGZ'
     end
 
-    Contract None => RespondTo[:to_s]
+    Contract None => Maybe[String]
     def provides
-      raise NotImplemented
+      nil
     end
 
     Contract RespondTo[:to_s] => Bool
