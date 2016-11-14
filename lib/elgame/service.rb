@@ -50,7 +50,7 @@ module ElGame
 
     Contract RespondTo[:to_s] => Bool
     def speaks?(protocol)
-      protocol.to_s.casecmp(speaks).zero?
+      [speaks, 'Service/1.0'].compact.any? { |p| protocol.to_s.casecmp(p).zero? }
     end
 
     Contract None => ::CZTop::Message
