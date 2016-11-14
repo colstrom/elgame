@@ -58,6 +58,14 @@ module ElGame
       message << 'HUGZ'
     end
 
+    Contract None => ::CZTop::Message
+    def protocols
+      message = CZTop::Message.new << 'Service/1.0' << 'PROTOCOLS'
+
+      (['Service/1.0'] + [speaks])
+        .flatten.compact.reduce(message) { |acc, elem| acc << elem }
+    end
+
     Contract None => Maybe[String]
     def provides
       nil
