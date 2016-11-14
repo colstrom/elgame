@@ -43,9 +43,9 @@ module ElGame
       @socket ||= ::CZTop::Socket::REP.new "@tcp://#{address}:#{port}"
     end
 
-    Contract None => String
+    Contract None => Maybe[String]
     def speaks
-      raise NotImplemented
+      nil
     end
 
     Contract RespondTo[:to_s] => Bool
