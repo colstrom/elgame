@@ -82,7 +82,10 @@ module ElGame
 
     Contract RespondTo[:to_s] => Bool
     def provides?(service)
-      [provides, 'send_hugz'].compact.any? { |s| service.to_s.casecmp(s).zero? }
+      (commands.to_a.drop(2) + [provides])
+        .flatten.compact
+        .map { |s| s.tr('-', '_') }
+        .any? { |s| service.to_s.casecmp(s).zero? }
     end
 
     Contract CZTop::Message => ::CZTop::Message
