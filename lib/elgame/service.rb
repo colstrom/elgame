@@ -12,12 +12,12 @@ module ElGame
     Contract KeywordArgs => Service
     def initialize(**options)
       @options = options
-      registry.register! provides, socket.last_endpoint
       self
     end
 
     Contract None => Any
     def listen
+      registry.register! provides, socket.last_endpoint
       loop { reply handle request }
     end
 
