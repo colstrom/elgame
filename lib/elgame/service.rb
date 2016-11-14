@@ -66,6 +66,15 @@ module ElGame
         .flatten.compact.reduce(message) { |acc, elem| acc << elem }
     end
 
+    Contract None => ::CZTop::Message
+    def commands
+      message = CZTop::Message.new << 'Service/1.0' << 'COMMANDS'
+
+      (%w(SEND-HUGZ PROTOCOLS COMMANDS) + [provides])
+        .flatten.compact
+        .map(&:upcase).reduce(message) { |acc, elem| acc << elem }
+    end
+
     Contract None => Maybe[String]
     def provides
       nil
