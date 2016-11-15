@@ -43,6 +43,14 @@ module ElGame
         .map(&:upcase).reduce(message) { |acc, elem| acc << elem }
     end
 
+    Contract RespondTo[:to_sym] => ::CZTop::Message
+    def describe(command)
+      command = command.downcase.tr('-', '_')
+      method = method original(command) || command.to_sym
+      (['DESCRIPTION', method.arity] + method.parameters.map(&:last))
+        .reduce(message) { |acc, elem| acc << elem.to_s }
+    end
+
     private
 
     Contract None => Registry::Client
