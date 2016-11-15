@@ -88,6 +88,13 @@ module ElGame
         .any? { |s| service.to_s.casecmp(s).zero? }
     end
 
+    Contract RespondTo[:to_s] => Maybe[Symbol]
+    def original(command)
+      methods.find do |m|
+        m.to_s.start_with? "__contracts_ruby_original_#{command}_"
+      end
+    end
+
     Contract CZTop::Message => ::CZTop::Message
     def handle(request)
       return error if request.size < 2
