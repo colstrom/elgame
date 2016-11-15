@@ -54,6 +54,11 @@ module ElGame
           response.casecmp('PROVIDERS').zero? ? providers : []
         end
 
+        Contract RespondTo[:to_s] => Maybe[String]
+        def provider(service)
+          providers(service).sample
+        end
+
         private
 
         Contract None => String
