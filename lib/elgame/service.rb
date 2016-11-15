@@ -21,6 +21,28 @@ module ElGame
       loop { reply handle request }
     end
 
+    Contract None => ::CZTop::Message
+    def send_hugz
+      message << 'HUGZ'
+    end
+
+    Contract None => ::CZTop::Message
+    def protocols
+      message = CZTop::Message.new << 'Service/1.0' << 'PROTOCOLS'
+
+      (['Service/1.0'] + [speaks])
+        .flatten.compact.reduce(message) { |acc, elem| acc << elem }
+    end
+
+    Contract None => ::CZTop::Message
+    def commands
+      message = CZTop::Message.new << 'Service/1.0' << 'COMMANDS'
+
+      (%w(SEND-HUGZ PROTOCOLS COMMANDS DESCRIBE) + [provides])
+        .flatten.compact
+        .map(&:upcase).reduce(message) { |acc, elem| acc << elem }
+    end
+
     private
 
     Contract None => Registry::Client
@@ -51,28 +73,6 @@ module ElGame
     Contract RespondTo[:to_s] => Bool
     def speaks?(protocol)
       [speaks, 'Service/1.0'].compact.any? { |p| protocol.to_s.casecmp(p).zero? }
-    end
-
-    Contract None => ::CZTop::Message
-    def send_hugz
-      message << 'HUGZ'
-    end
-
-    Contract None => ::CZTop::Message
-    def protocols
-      message = CZTop::Message.new << 'Service/1.0' << 'PROTOCOLS'
-
-      (['Service/1.0'] + [speaks])
-        .flatten.compact.reduce(message) { |acc, elem| acc << elem }
-    end
-
-    Contract None => ::CZTop::Message
-    def commands
-      message = CZTop::Message.new << 'Service/1.0' << 'COMMANDS'
-
-      (%w(SEND-HUGZ PROTOCOLS COMMANDS) + [provides])
-        .flatten.compact
-        .map(&:upcase).reduce(message) { |acc, elem| acc << elem }
     end
 
     Contract None => Maybe[String]
