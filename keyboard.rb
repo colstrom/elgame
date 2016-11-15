@@ -5,7 +5,7 @@ require 'pry'
 require_relative 'client'
 
 class KeyboardClient < Client
-  DIRECTIONS = %i(forward backward left right)
+  DIRECTIONS = %i(forward backward left right).freeze
 
   def listen
     STDERR.puts 'Reading from Keyboard...'
