@@ -123,14 +123,14 @@ class Server
   end
 
   Contract None => Any
-  def invalid_checks( token, direction )
+  def invalid_checks(token, direction)
     return invald_token! unless valid? token
     return invalid_direction unless valid_direction? direction
   end
 
   Contract String, String => Any
   def attack(token, direction)
-    invalid_checks( token, direction)
+    invalid_checks(token, direction)
 
     x, y = MOVES[relative_direction orientation(token), direction.upcase]
     px, py = position token
