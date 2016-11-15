@@ -21,19 +21,19 @@ class Server
     'LEFT' => -1,
     'RIGHT' => 1,
     'BACKWARD' => -2
-  }
+  }.freeze
   ARROW = {
     'NORTH' => '⬆️',
     'SOUTH' => '⬇️',
     'EAST' => '➡️',
     'WEST' => '⬅️'
-  }
+  }.freeze
   MOVES = {
     'NORTH' => [-1, 0],
     'SOUTH' => [1, 0],
     'WEST' => [0, -1],
     'EAST' => [0, 1]
-  }
+  }.freeze
   INTANGIBLE = %w(VOID OBSERVER).freeze
 
   Orientation = Enum[*ORIENTATIONS]
