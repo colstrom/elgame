@@ -39,12 +39,12 @@ module ElGame
 
         Contract None => ::CZTop::Message
         def all_the_things
-          services.reduce(message << 'SERVICES') { |acc, elem| acc << elem }
+          services.reduce(message << 'SERVICES', :<<)
         end
 
         Contract String => ::CZTop::Message
         def who_does(service)
-          providers.fetch(service, Set.new).reduce(message << 'PROVIDERS') { |acc, elem| acc << elem }
+          providers.fetch(service, Set.new).reduce(message << 'PROVIDERS', :<<)
         end
 
         Contract None => Any
