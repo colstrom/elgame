@@ -28,7 +28,7 @@ module ElGame
 
     Contract None => ::CZTop::Message
     def protocols
-      message = CZTop::Message.new << 'Service/1.0' << 'PROTOCOLS'
+      message = ::CZTop::Message.new << 'Service/1.0' << 'PROTOCOLS'
 
       (['Service/1.0'] + [speaks])
         .flatten.compact.reduce(message) { |acc, elem| acc << elem }
@@ -36,7 +36,7 @@ module ElGame
 
     Contract None => ::CZTop::Message
     def commands
-      message = CZTop::Message.new << 'Service/1.0' << 'COMMANDS'
+      message = ::CZTop::Message.new << 'Service/1.0' << 'COMMANDS'
 
       (%w(SEND-HUGZ PROTOCOLS COMMANDS DESCRIBE) + [provides])
         .flatten.compact
