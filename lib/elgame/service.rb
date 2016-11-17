@@ -45,10 +45,12 @@ module ElGame
 
     Contract RespondTo[:to_sym] => ::CZTop::Message
     def describe(command)
+      message = ::CZTop::Message.new << 'Service/1.0' << 'DESCRIPTION'
+
       command = command.downcase.tr('-', '_')
       method = method original(command) || command.to_sym
-      (['DESCRIPTION', method.arity] + method.parameters.map(&:last))
-        .reduce(message) { |acc, elem| acc << elem.to_s }
+      [method.arity, method.parameters.map(&:last)]
+        .flatten.map(&:to_s).reduce(message, :<<)
     end
 
     private
