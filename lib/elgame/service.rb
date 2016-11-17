@@ -23,7 +23,7 @@ module ElGame
 
     Contract None => ::CZTop::Message
     def send_hugz
-      message << 'HUGZ'
+      ::CZTop::Message.new << 'Service/1.0' << 'HUGZ'
     end
 
     Contract None => ::CZTop::Message
