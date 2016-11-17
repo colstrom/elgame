@@ -30,8 +30,7 @@ module ElGame
     def protocols
       message = ::CZTop::Message.new << 'Service/1.0' << 'PROTOCOLS'
 
-      (['Service/1.0'] + [speaks])
-        .flatten.compact.reduce(message) { |acc, elem| acc << elem }
+      (['Service/1.0'] + [speaks]).flatten.compact.reduce(message, :<<)
     end
 
     Contract None => ::CZTop::Message
@@ -39,8 +38,7 @@ module ElGame
       message = ::CZTop::Message.new << 'Service/1.0' << 'COMMANDS'
 
       (%w(SEND-HUGZ PROTOCOLS COMMANDS DESCRIBE) + [provides])
-        .flatten.compact
-        .map(&:upcase).reduce(message) { |acc, elem| acc << elem }
+        .flatten.compact.map(&:upcase).reduce(message, :<<)
     end
 
     Contract RespondTo[:to_sym] => ::CZTop::Message
