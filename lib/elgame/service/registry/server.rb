@@ -19,6 +19,7 @@ module ElGame
         Contract String, String => ::CZTop::Message
         def ohai(service, provider)
           return error if [service, provider].any?(&:empty?)
+          service.upcase!
           return (message << 'WELCOME-BACK') if providers(service).member? provider
           providers.store service, providers(service) << provider
           services << service
@@ -44,7 +45,7 @@ module ElGame
 
         Contract String => ::CZTop::Message
         def who_does(service)
-          providers.fetch(service, Set.new).reduce(message << 'PROVIDERS', :<<)
+          providers.fetch(service.upcase, Set.new).reduce(message << 'PROVIDERS', :<<)
         end
 
         Contract None => Any
