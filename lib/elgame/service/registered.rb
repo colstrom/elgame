@@ -3,8 +3,8 @@
 require 'contracts'
 require 'cztop'
 require_relative 'basic'
-require_relative 'registry/client'
 require_relative 'provider'
+require_relative 'provider/registry'
 
 module ElGame
   module Service
@@ -25,7 +25,7 @@ module ElGame
 
       # Contract None => Registry::Client
       def registry
-        @registry ||= Registry::Client.new
+        @registry ||= Provider::Registry.new endpoint: 'tcp://127.0.0.1:5556'
       end
 
       def method_missing(symbol, *args)
