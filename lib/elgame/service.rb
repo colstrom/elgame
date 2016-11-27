@@ -53,7 +53,7 @@ module ElGame
 
     private
 
-    Contract None => Registry::Client
+    # Contract None => Registry::Client
     def registry
       @registry ||= ::ElGame::Service::Registry::Client.new
     end
