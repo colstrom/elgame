@@ -98,7 +98,8 @@ module ElGame
       end
 
       def respond_to_missing?(symbol, include_all = false)
-        commands.any? { |c| c.casecmp(symbol.to_s).zero? } || super
+        symbol = symbol.to_s.upcase.tr('_', '-')
+        commands.any? { |c| symbol.casecmp(c).zero? } || super
       end
 
       def method_missing(symbol, *args, **options)
