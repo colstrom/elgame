@@ -39,10 +39,17 @@ module ElGame
         Provider.new endpoint: providers.first unless providers.empty?
       end
 
+      def invoke(service, command = service, *args)
+        if provider = provider(service)
+          provider.public_send command, *args
+        elsif block_given?
+          yield
+        end
+      end
+
       def method_missing(symbol, *args)
         return super unless respond_to_missing? symbol
-
-        Provider.new(endpoint: registry.provider(symbol)).send symbol, *args
+        invoke symbol, *args
       end
 
       def respond_to_missing?(symbol, _ = false)
