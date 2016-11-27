@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+
+require_relative '../lib/elgame/service/registered'
+
+class TestCase < ElGame::Service::Registered
+  PROTOCOL = 'TestCase/1.0'.freeze
+
+  def testcase
+    message << 'TEST' << 'MESSAGE'
+  end
+
+  def commands
+    ['testcase'].reduce super, :<<
+  end
+end
+
+TestCase.new.listen
