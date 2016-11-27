@@ -3,6 +3,7 @@
 require 'contracts'
 require 'cztop'
 require_relative 'service/registry/client'
+require_relative 'service/provider'
 
 module ElGame
   class Service
@@ -131,6 +132,18 @@ module ElGame
     Contract None => ::CZTop::Message
     def request
       socket.receive.tap { |m| puts "> #{m}" }
+    end
+
+    def method_missing(symbol, *args)
+      return super unless respond_to_missing? symbol
+
+      Service::Provider
+        .new(endpoint: registry.provider(symbol))
+        .send symbol, *args
+    end
+
+    def respond_to_missing?(symbol, _ = false)
+      registry.provider(symbol) || super
     end
   end
 end
