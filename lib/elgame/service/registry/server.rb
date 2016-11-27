@@ -4,7 +4,7 @@ require 'moneta'
 require 'securerandom'
 
 module ElGame
-  class Service
+  module Service
     class Registry
       class Server
         include ::Contracts::Core

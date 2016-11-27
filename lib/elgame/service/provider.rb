@@ -2,7 +2,7 @@ require 'contracts'
 require 'cztop'
 
 module ElGame
-  class Service
+  module Service
     class Provider
       include ::Contracts::Core
       include ::Contracts::Builtin
