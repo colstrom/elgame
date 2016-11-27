@@ -23,9 +23,15 @@ module ElGame
 
       private
 
+      def registries
+        @registries ||= @options
+                          .fetch(:registries) { ['tcp://127.0.0.1:5556'] }
+                          .map { |r| Provider::Registry.new endpoint: r }
+      end
+
       # Contract None => Registry::Client
       def registry
-        @registry ||= Provider::Registry.new endpoint: 'tcp://127.0.0.1:5556'
+        registries.first
       end
 
       def method_missing(symbol, *args)
