@@ -34,6 +34,11 @@ module ElGame
         registries.first
       end
 
+      def provider(service)
+        providers = registries.map { |r| r.provider service }.compact
+        Provider.new endpoint: providers.first unless providers.empty?
+      end
+
       def method_missing(symbol, *args)
         return super unless respond_to_missing? symbol
 
@@ -41,7 +46,7 @@ module ElGame
       end
 
       def respond_to_missing?(symbol, _ = false)
-        registry.provider(symbol) || super
+        provider(symbol) || super
       end
     end
   end
