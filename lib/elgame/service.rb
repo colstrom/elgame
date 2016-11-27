@@ -106,7 +106,7 @@ module ElGame
 
     Contract CZTop::Message => ::CZTop::Message
     def handle(request)
-      return error if request.size < 2
+      return error 'I expected more than that...' if request.size < 2
       return error "I speak #{speaks}" unless speaks? request.pop
       command = request.pop.downcase.tr('-', '_')
       return error "I provide #{provides}" unless provides? command
