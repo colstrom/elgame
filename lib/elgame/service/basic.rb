@@ -151,6 +151,8 @@ module ElGame
         command = request.pop.downcase.tr('-', '_')
         return error "I do not handle #{command}" unless handles? command
         public_send command, *request.to_a
+      rescue ArgumentError => exception
+        return error exception.message
       end
     end
   end
