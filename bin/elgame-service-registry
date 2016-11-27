@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+
+require_relative '../lib/elgame/service/registry'
+ElGame::Service::Registry.new.listen
