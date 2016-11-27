@@ -105,7 +105,12 @@ module ElGame
       def method_missing(symbol, *args, **options)
         return super unless respond_to_missing? symbol
 
-        protocol = options.fetch(:protocol) { "#{symbol}/1.0" }
+        protocol = options.fetch(:protocol) do
+          protocols
+            .reject { |p| p.casecmp('Service/1.0').zero? }
+            .last || "#{symbol}/1.0"
+        end
+
         socket << (message protocol, symbol, *args)
         response = reply
         response if response.pop.casecmp(protocol).zero?
