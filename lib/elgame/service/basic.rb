@@ -48,7 +48,7 @@ module ElGame
       def describe(command)
         command = command.to_s.downcase.tr('-', '_')
         method = method original(command) || command.to_sym
-        ['DESCRIPTION', method.arity, method.paraameters.map(&:last)]
+        ['DESCRIPTION', method.arity, method.parameters.map(&:last)]
           .flatten
           .map(&:to_s)
           .reduce service_message, :<<
